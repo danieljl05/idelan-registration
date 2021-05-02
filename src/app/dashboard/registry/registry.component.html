@@ -1,0 +1,47 @@
+<app-breadcrumb [lPath]="lPath"></app-breadcrumb>
+<div class="page-content">
+  <div *ngIf="ready">
+    <mat-card>
+      <mat-card-content>
+        <mat-form-field class="example-full-width">
+          <mat-label>Nombre </mat-label>
+          <input
+            type="text"
+            matInput
+            [formControl]="personCtrl"
+            [matAutocomplete]="auto"
+            (keyup.enter)="addNewAssitant()"
+          />
+          <mat-autocomplete
+            #auto="matAutocomplete"
+            [displayWith]="displayFn"
+            (optionSelected)="personSelected($event)"
+          >
+            <mat-option
+              *ngFor="let option of filteredOptions | async"
+              [value]="option"
+            >
+              {{ displayFn(option) }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+    <!-- Assistants -->
+    <mat-card *ngIf="chosen.length > 0">
+      <mat-card-content>
+        <mat-card-actions>
+          <mat-card-title style="margin-top: 5px"> Asistentes: </mat-card-title>
+        </mat-card-actions>
+        <mat-nav-list>
+          <mat-list-item *ngFor="let p of chosen; index as i">
+            <a matLine href="...">{{ displayFn(p) }}</a>
+            <button mat-icon-button (click)="remove(i)">
+              <mat-icon>person_remove</mat-icon>
+            </button>
+          </mat-list-item>
+        </mat-nav-list>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
